@@ -1,35 +1,30 @@
-﻿using System;
-
-namespace Voronoi
+﻿namespace Voronoi.Objects.Enumerations
 {
-    namespace Enumerations
+    public enum Biomes
     {
-        public enum Biomes
-        {
-            Water = 1,
-            Land = 2,
-            Ocean = 3
-        }
+        Water = 1,
+        Land = 2,
+        Ocean = 3
+    }
 
-        public enum ElevationZones
-        {
-            High,
-            UpperMiddle,
-            LowerMiddle,
-            Low,
-            Shallow,
-            Deep,
-            Trench
-        }
+    public enum ElevationZones
+    {
+        High,
+        UpperMiddle,
+        LowerMiddle,
+        Low,
+        Shallow,
+        Deep,
+        Trench
+    }
 
-        public enum EdgeType
-        {
-            None,
-            Outer,
-            Coast,
-            River,
-            Land,
-            Water
-        }
+    public enum EdgeType
+    {
+        None,
+        Outer,
+        Coast,
+        River,
+        Land,
+        Water
     }
 }

@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace Voronoi
+namespace Voronoi.Objects
 {
     public class Transitions
     {
         #region Properties
 
-        public System.Collections.Generic.LinkedList<int> InternalIndex = new System.Collections.Generic.LinkedList<int>();
-        public System.Collections.Generic.Dictionary<int, Beach> InternalTransitions = new System.Collections.Generic.Dictionary<int, Beach>();
+        public LinkedList<int> InternalIndex = new LinkedList<int>();
+        public Dictionary<int, Beach> InternalTransitions = new Dictionary<int, Beach>();
         private int RunningIndex = -1;
         public int Count
         {
@@ -26,16 +27,9 @@ namespace Voronoi
         /// <date>2013-07-28</date>
         public void AddFirst(Beach objBeach)
         {
-            try
-            {
-                this.RunningIndex++;
-                this.InternalTransitions.Add(this.RunningIndex, objBeach);
-                this.InternalIndex.AddFirst(this.RunningIndex);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in Unshift", ex);
-            }
+            this.RunningIndex++;
+            this.InternalTransitions.Add(this.RunningIndex, objBeach);
+            this.InternalIndex.AddFirst(this.RunningIndex);
         }
 
         /// <summary>
@@ -45,16 +39,9 @@ namespace Voronoi
         /// <date>2013-07-28</date>
         public void AddLast(Beach objBeach)
         {
-            try
-            {
-                this.RunningIndex++;
-                this.InternalTransitions.Add(this.RunningIndex, objBeach);
-                this.InternalIndex.AddLast(this.RunningIndex);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in Shift", ex);
-            }
+            this.RunningIndex++;
+            this.InternalTransitions.Add(this.RunningIndex, objBeach);
+            this.InternalIndex.AddLast(this.RunningIndex);
         }
 
         /// <summary>
@@ -64,35 +51,28 @@ namespace Voronoi
         /// <date>2013-07-28</date>
         public Beach Item(int intExternalIndex)
         {
-            try
+            // Initialise variables.
+            int intIndexFound = -1;
+            int intInternalIndex = 0;
+
+            foreach (int intIndex in this.InternalIndex)
             {
-                // Initialise variables.
-                int intIndexFound = -1;
-                int intInternalIndex = 0;
-
-                foreach (int intIndex in this.InternalIndex)
+                // Check to see if we've reach the right index.
+                if (intExternalIndex == intInternalIndex)
                 {
-                    // Check to see if we've reach the right index.
-                    if (intExternalIndex == intInternalIndex)
-                    {
-                        intIndexFound = intIndex;
-                        break;
-                    }
-
-                    // Raise the internal index.
-                    intInternalIndex++;
+                    intIndexFound = intIndex;
+                    break;
                 }
 
-                if (intIndexFound == -1) { throw new Exception("Item not found!"); }
-
-                if (!this.InternalTransitions.ContainsKey(intIndexFound)) { throw new Exception("Item not found in dictionary!"); }
-
-                return this.InternalTransitions[intIndexFound];
+                // Raise the internal index.
+                intInternalIndex++;
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in Item", ex);
-            }
+
+            if (intIndexFound == -1) { throw new Exception("Item not found!"); }
+
+            if (!this.InternalTransitions.ContainsKey(intIndexFound)) { throw new Exception("Item not found in dictionary!"); }
+
+            return this.InternalTransitions[intIndexFound];
         }
     }
 }

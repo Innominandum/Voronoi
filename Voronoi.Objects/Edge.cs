@@ -1,6 +1,7 @@
 ﻿using System;
+using Voronoi.Objects.Enumerations;
 
-namespace Voronoi
+namespace Voronoi.Objects
 {
     public class Edge
     {
@@ -8,7 +9,7 @@ namespace Voronoi
 
         public Point SiteLeft;
         public Point SiteRight;
-        public Enumerations.EdgeType Type = Enumerations.EdgeType.None;
+        public EdgeType Type = EdgeType.None;
         public Int16 River = 0;
 
         private Point _VertexA;
@@ -132,29 +133,22 @@ namespace Voronoi
         /// <date>2013-07-22</date>
         public void SetStartPoint(Point objSiteLeft, Point objSiteRight, Point objVertex)
         {
-            try
+            if (this.VertexA == null && this.VertexB == null)
             {
-                if (this.VertexA == null && this.VertexB == null)
+                this.VertexA = objVertex;
+                this.SiteLeft = objSiteLeft;
+                this.SiteRight = objSiteRight;
+            }
+            else
+            {
+                if (this.SiteLeft == objSiteRight)
+                {
+                    this.VertexB = objVertex;
+                }
+                else
                 {
                     this.VertexA = objVertex;
-                    this.SiteLeft = objSiteLeft;
-                    this.SiteRight = objSiteRight;
                 }
-                else 
-                {
-                    if (this.SiteLeft == objSiteRight)
-                    {
-                        this.VertexB = objVertex;
-                    }
-                    else
-                    {
-                        this.VertexA = objVertex;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in SetStartPoint", ex);
             }
         }
 
@@ -165,14 +159,7 @@ namespace Voronoi
         /// <date>2013-07-22</date>
         public void SetEndPoint(Point objSiteLeft, Point objSiteRight, Point objVertex)
         {
-            try
-            {
-                this.SetStartPoint(objSiteRight, objSiteLeft, objVertex);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in SetEndPoint", ex);
-            }   
+            this.SetStartPoint(objSiteRight, objSiteLeft, objVertex);
         }
     }
 }

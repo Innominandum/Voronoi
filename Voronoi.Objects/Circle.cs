@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Voronoi
+namespace Voronoi.Objects
 {
     public class Circle : RBNode
     {

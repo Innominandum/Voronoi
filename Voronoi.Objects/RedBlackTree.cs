@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Voronoi
+namespace Voronoi.Objects
 {
     public class RBTree
     {
@@ -17,133 +17,126 @@ namespace Voronoi
         /// <date>2013-07-21</date>
         public void InsertSuccessor(RBNode objNode, RBNode objSuccessor)
         {
-            try
+            // Initialise some variables.
+            RBNode objParent = null;
+            RBNode objGrandpa = null;
+            RBNode objUncle = null;
+
+            if (objNode != null)
             {
-                // Initialise some variables.
-                RBNode objParent = null;
-                RBNode objGrandpa = null;
-                RBNode objUncle = null;
+                objSuccessor.Previous = objNode;
+                objSuccessor.Next = objNode.Next;
 
-                if (objNode != null)
+                if (objNode.Next != null)
                 {
-                    objSuccessor.Previous = objNode;
-                    objSuccessor.Next = objNode.Next;
-
-                    if (objNode.Next != null)
-                    {
-                        objNode.Next.Previous = objSuccessor;
-                    }
-
-                    objNode.Next = objSuccessor;
-
-                    if (objNode.Right != null)
-                    {
-                        // I think the line below is the same as the following code. Has to be tested.
-                        //this.GetFirst(objNode.Right).Left = objSuccessor;
-                        
-                        objNode = objNode.Right;
-
-                        while (objNode.Left != null)
-                        {
-                            objNode = objNode.Left;
-                        }
-
-                        objNode.Left = objSuccessor;
-                    }
-                    else
-                    {
-                        objNode.Right = objSuccessor;
-                    }
-
-                    objParent = objNode;
+                    objNode.Next.Previous = objSuccessor;
                 }
-                else if (this.Root != null)
-                {
-                    objNode = this.GetFirst(this.Root);
 
-                    objSuccessor.Previous = null;
-                    objSuccessor.Next = objNode;
-                    objNode.Previous = objSuccessor;
+                objNode.Next = objSuccessor;
+
+                if (objNode.Right != null)
+                {
+                    // I think the line below is the same as the following code. Has to be tested.
+                    //this.GetFirst(objNode.Right).Left = objSuccessor;
+
+                    objNode = objNode.Right;
+
+                    while (objNode.Left != null)
+                    {
+                        objNode = objNode.Left;
+                    }
+
                     objNode.Left = objSuccessor;
-                    objParent = objNode;
                 }
                 else
                 {
-                    objSuccessor.Previous = objSuccessor.Next = null;
-                    this.Root = objSuccessor;
-                    objParent = null;
+                    objNode.Right = objSuccessor;
                 }
 
-                objSuccessor.Left = objSuccessor.Right = null;
-                objSuccessor.Parent = objParent;
-                objSuccessor.Red = true;
+                objParent = objNode;
+            }
+            else if (this.Root != null)
+            {
+                objNode = this.GetFirst(this.Root);
 
-                objNode = objSuccessor;
+                objSuccessor.Previous = null;
+                objSuccessor.Next = objNode;
+                objNode.Previous = objSuccessor;
+                objNode.Left = objSuccessor;
+                objParent = objNode;
+            }
+            else
+            {
+                objSuccessor.Previous = objSuccessor.Next = null;
+                this.Root = objSuccessor;
+                objParent = null;
+            }
 
-                while (objParent != null && objParent.Red)
+            objSuccessor.Left = objSuccessor.Right = null;
+            objSuccessor.Parent = objParent;
+            objSuccessor.Red = true;
+
+            objNode = objSuccessor;
+
+            while (objParent != null && objParent.Red)
+            {
+                objGrandpa = objParent.Parent;
+
+                if (objParent == objGrandpa.Left)
                 {
-                    objGrandpa = objParent.Parent;
+                    objUncle = objGrandpa.Right;
 
-                    if (objParent == objGrandpa.Left)
+                    if (objUncle != null && objUncle.Red)
                     {
-                        objUncle = objGrandpa.Right;
-
-                        if (objUncle != null && objUncle.Red)
-                        {
-                            objParent.Red = objUncle.Red = false;
-                            objGrandpa.Red = true;
-                            objNode = objGrandpa;
-                        }
-                        else
-                        {
-                            if (objNode == objParent.Right)
-                            {
-                                this.RotateLeft(objParent);
-                                objNode = objParent;
-                                objParent = objNode.Parent;
-                            }
-
-                            objParent.Red = false;
-                            objGrandpa.Red = true;
-
-                            this.RotateRight(objGrandpa);
-                        }
+                        objParent.Red = objUncle.Red = false;
+                        objGrandpa.Red = true;
+                        objNode = objGrandpa;
                     }
                     else
                     {
-                        objUncle = objGrandpa.Left;
-
-                        if (objUncle != null && objUncle.Red)
+                        if (objNode == objParent.Right)
                         {
-                            objParent.Red = objUncle.Red = false;
-                            objGrandpa.Red = true;
-                            objNode = objGrandpa;
+                            this.RotateLeft(objParent);
+                            objNode = objParent;
+                            objParent = objNode.Parent;
                         }
-                        else
-                        {
-                            if (objNode == objParent.Left)
-                            {
-                                this.RotateRight(objParent);
-                                objNode = objParent;
-                                objParent = objNode.Parent;
-                            }
 
-                            objParent.Red = false;
-                            objGrandpa.Red = true;
+                        objParent.Red = false;
+                        objGrandpa.Red = true;
 
-                            this.RotateLeft(objGrandpa);
-                        }
+                        this.RotateRight(objGrandpa);
                     }
+                }
+                else
+                {
+                    objUncle = objGrandpa.Left;
 
-                    objParent = objNode.Parent;
+                    if (objUncle != null && objUncle.Red)
+                    {
+                        objParent.Red = objUncle.Red = false;
+                        objGrandpa.Red = true;
+                        objNode = objGrandpa;
+                    }
+                    else
+                    {
+                        if (objNode == objParent.Left)
+                        {
+                            this.RotateRight(objParent);
+                            objNode = objParent;
+                            objParent = objNode.Parent;
+                        }
+
+                        objParent.Red = false;
+                        objGrandpa.Red = true;
+
+                        this.RotateLeft(objGrandpa);
+                    }
                 }
 
-                this.Root.Red = false;
+                objParent = objNode.Parent;
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in InsertSuccessor", ex);
-            }
+
+            this.Root.Red = false;
         }
 
         /// <summary>
@@ -153,19 +146,12 @@ namespace Voronoi
         /// <date>2013-07-21</date>
         private RBNode GetFirst(RBNode objNode)
         {
-            try
+            while (objNode.Left != null)
             {
-                while (objNode.Left != null)
-                {
-                    objNode = objNode.Left;
-                }
+                objNode = objNode.Left;
+            }
 
-                return objNode;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in GetFirst", ex);
-            }
+            return objNode;
         }
 
         /// <summary>
@@ -175,19 +161,12 @@ namespace Voronoi
         /// <date>2013-07-21</date>
         private RBNode GetLast(RBNode objNode)
         {
-            try
+            while (objNode.Right != null)
             {
-                while (objNode.Right != null)
-                {
-                    objNode = objNode.Right;
-                }
+                objNode = objNode.Right;
+            }
 
-                return objNode;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in GetLast", ex);
-            }
+            return objNode;
         }
 
         /// <summary>
@@ -197,42 +176,35 @@ namespace Voronoi
         /// <date>2013-07-21</date>
         private void RotateLeft(RBNode objNode)
         {
-            try
-            {
-                RBNode objRight = objNode.Right;
-                RBNode objParent = objNode.Parent;
+            RBNode objRight = objNode.Right;
+            RBNode objParent = objNode.Parent;
 
-                if (objParent != null)
+            if (objParent != null)
+            {
+                if (objParent.Left == objNode)
                 {
-                    if (objParent.Left == objNode)
-                    {
-                        objParent.Left = objRight;
-                    }
-                    else
-                    {
-                        objParent.Right = objRight;
-                    }
+                    objParent.Left = objRight;
                 }
                 else
                 {
-                    this.Root = objRight;
+                    objParent.Right = objRight;
                 }
-
-                objRight.Parent = objParent;
-                objNode.Parent = objRight;
-                objNode.Right = objRight.Left;
-
-                if (objNode.Right != null)
-                {
-                    objNode.Right.Parent = objNode;
-                }
-
-                objRight.Left = objNode;
             }
-            catch (Exception ex)
+            else
             {
-                throw new Exception("Error in RotateLeft", ex);
+                this.Root = objRight;
             }
+
+            objRight.Parent = objParent;
+            objNode.Parent = objRight;
+            objNode.Right = objRight.Left;
+
+            if (objNode.Right != null)
+            {
+                objNode.Right.Parent = objNode;
+            }
+
+            objRight.Left = objNode;
         }
 
         /// <summary>
@@ -242,42 +214,35 @@ namespace Voronoi
         /// <date>2013-07-21</date>
         private void RotateRight(RBNode objNode)
         {
-            try
-            {
-                RBNode objLeft = objNode.Left;
-                RBNode objParent = objNode.Parent;
+            RBNode objLeft = objNode.Left;
+            RBNode objParent = objNode.Parent;
 
-                if (objParent != null)
+            if (objParent != null)
+            {
+                if (objParent.Left == objNode)
                 {
-                    if (objParent.Left == objNode)
-                    {
-                        objParent.Left = objLeft;
-                    }
-                    else
-                    {
-                        objParent.Right = objLeft;
-                    }
+                    objParent.Left = objLeft;
                 }
                 else
                 {
-                    this.Root = objLeft;
+                    objParent.Right = objLeft;
                 }
-
-                objLeft.Parent = objParent;
-                objNode.Parent = objLeft;
-                objNode.Left = objLeft.Right;
-
-                if (objNode.Left != null)
-                {
-                    objNode.Left.Parent = objNode;
-                }
-
-                objLeft.Right = objNode;
             }
-            catch (Exception ex)
+            else
             {
-                throw new Exception("Error in RotateRight", ex);
+                this.Root = objLeft;
             }
+
+            objLeft.Parent = objParent;
+            objNode.Parent = objLeft;
+            objNode.Left = objLeft.Right;
+
+            if (objNode.Left != null)
+            {
+                objNode.Left.Parent = objNode;
+            }
+
+            objLeft.Right = objNode;
         }
 
         /// <summary>
@@ -287,190 +252,183 @@ namespace Voronoi
         /// <date>2013-07-21</date>
         public void RemoveNode(RBNode objNode)
         {
-            try
+            if (objNode.Next != null)
             {
-                if (objNode.Next != null)
-                {
-                    objNode.Next.Previous = objNode.Previous;
-                }
+                objNode.Next.Previous = objNode.Previous;
+            }
 
-                if (objNode.Previous != null)
-                {
-                    objNode.Previous.Next = objNode.Next;
-                }
+            if (objNode.Previous != null)
+            {
+                objNode.Previous.Next = objNode.Next;
+            }
 
-                objNode.Next = objNode.Previous = null;
+            objNode.Next = objNode.Previous = null;
 
-                RBNode objParent = objNode.Parent;
-                RBNode objLeft = objNode.Left;
-                RBNode objRight = objNode.Right;
-                RBNode objNext = null;
+            RBNode objParent = objNode.Parent;
+            RBNode objLeft = objNode.Left;
+            RBNode objRight = objNode.Right;
+            RBNode objNext = null;
 
-                if (objLeft == null)
-                {
-                    objNext = objRight;
-                }
-                else if (objRight == null)
-                {
-                    objNext = objLeft;
-                }
-                else
-                {
-                    objNext = this.GetFirst(objRight);
-                }
+            if (objLeft == null)
+            {
+                objNext = objRight;
+            }
+            else if (objRight == null)
+            {
+                objNext = objLeft;
+            }
+            else
+            {
+                objNext = this.GetFirst(objRight);
+            }
 
-                if (objParent != null)
+            if (objParent != null)
+            {
+                if (objParent.Left == objNode)
                 {
-                    if (objParent.Left == objNode)
-                    {
-                        objParent.Left = objNext;
-                    }
-                    else
-                    {
-                        objParent.Right = objNext;
-                    }
+                    objParent.Left = objNext;
                 }
                 else
                 {
-                    this.Root = objNext;
+                    objParent.Right = objNext;
                 }
+            }
+            else
+            {
+                this.Root = objNext;
+            }
 
-                // Enforce red-black rules.
-                bool blnIsRed;
+            // Enforce red-black rules.
+            bool blnIsRed;
 
-                if (objLeft != null && objRight != null)
+            if (objLeft != null && objRight != null)
+            {
+                blnIsRed = objNext.Red;
+                objNext.Red = objNode.Red;
+                objNext.Left = objLeft;
+                objLeft.Parent = objNext;
+
+                if (objNext != objRight)
                 {
-                    blnIsRed = objNext.Red;
-                    objNext.Red = objNode.Red;
-                    objNext.Left = objLeft;
-                    objLeft.Parent = objNext;
-
-                    if (objNext != objRight)
-                    {
-                        objParent = objNext.Parent;
-                        objNext.Parent = objNode.Parent;
-                        objNode = objNext.Right;
-                        objParent.Left = objNode;
-                        objNext.Right = objRight;
-                        objRight.Parent = objNext;
-                    }
-                    else
-                    {
-                        objNext.Parent = objParent;
-                        objParent = objNext;
-                        objNode = objNext.Right;
-                    }
+                    objParent = objNext.Parent;
+                    objNext.Parent = objNode.Parent;
+                    objNode = objNext.Right;
+                    objParent.Left = objNode;
+                    objNext.Right = objRight;
+                    objRight.Parent = objNext;
                 }
                 else
                 {
-                    blnIsRed = objNode.Red;
-                    objNode = objNext;
+                    objNext.Parent = objParent;
+                    objParent = objNext;
+                    objNode = objNext.Right;
+                }
+            }
+            else
+            {
+                blnIsRed = objNode.Red;
+                objNode = objNext;
+            }
+
+            // Node is now the sole successor's child and parent is new parent, since the successor can have been moved.
+            if (objNode != null)
+            {
+                objNode.Parent = objParent;
+            }
+
+            // The easy cases.
+            if (blnIsRed)
+            {
+                return;
+            }
+
+            if (objNode != null && objNode.Red)
+            {
+                objNode.Red = false;
+
+                return;
+            }
+
+            // The other cases.
+            RBNode objSibling = null;
+
+            do
+            {
+                if (objNode == this.Root)
+                {
+                    break;
                 }
 
-                // Node is now the sole successor's child and parent is new parent, since the successor can have been moved.
-                if (objNode != null)
+                if (objNode == objParent.Left)
                 {
-                    objNode.Parent = objParent;
-                }
+                    objSibling = objParent.Right;
 
-                // The easy cases.
-                if (blnIsRed)
-                {
-                    return;
-                }
-
-                if (objNode != null && objNode.Red)
-                {
-                    objNode.Red = false;
-
-                    return;
-                }
-
-                // The other cases.
-                RBNode objSibling = null;
-
-                do
-                {
-                    if (objNode == this.Root)
+                    if (objSibling.Red)
                     {
-                        break;
-                    }
-
-                    if (objNode == objParent.Left)
-                    {
+                        objSibling.Red = false;
+                        objParent.Red = true;
+                        this.RotateLeft(objParent);
                         objSibling = objParent.Right;
+                    }
 
-                        if (objSibling.Red)
+                    if ((objSibling.Left != null && objSibling.Left.Red) || (objSibling.Right != null && objSibling.Right.Red))
+                    {
+                        if (objSibling.Right == null || !objSibling.Right.Red)
                         {
-                            objSibling.Red = false;
-                            objParent.Red = true;
-                            this.RotateLeft(objParent);
+                            objSibling.Left.Red = false;
+                            objSibling.Red = true;
+                            this.RotateRight(objSibling);
                             objSibling = objParent.Right;
                         }
 
-                        if ((objSibling.Left != null && objSibling.Left.Red) || (objSibling.Right != null && objSibling.Right.Red))
-                        {
-                            if (objSibling.Right == null || !objSibling.Right.Red)
-                            {
-                                objSibling.Left.Red = false;
-                                objSibling.Red = true;
-                                this.RotateRight(objSibling);
-                                objSibling = objParent.Right;
-                            }
+                        objSibling.Red = objParent.Red;
+                        objParent.Red = objSibling.Right.Red = false;
+                        this.RotateLeft(objParent);
+                        objNode = this.Root;
 
-                            objSibling.Red = objParent.Red;
-                            objParent.Red = objSibling.Right.Red = false;
-                            this.RotateLeft(objParent);
-                            objNode = this.Root;
-
-                            break;
-                        }
+                        break;
                     }
-                    else
-                    {
-                        objSibling = objParent.Left;
+                }
+                else
+                {
+                    objSibling = objParent.Left;
 
-                        if (objSibling.Red)
+                    if (objSibling.Red)
+                    {
+                        objSibling.Red = false;
+                        objParent.Red = true;
+                        this.RotateRight(objParent);
+                        objSibling = objParent.Left;
+                    }
+
+                    if ((objSibling.Left != null && objSibling.Left.Red) || (objSibling.Right != null && objSibling.Right.Red))
+                    {
+                        if (objSibling.Left == null || !objSibling.Left.Red)
                         {
-                            objSibling.Red = false;
-                            objParent.Red = true;
-                            this.RotateRight(objParent);
+                            objSibling.Right.Red = false;
+                            objSibling.Red = true;
+                            this.RotateLeft(objSibling);
                             objSibling = objParent.Left;
                         }
 
-                        if ((objSibling.Left != null && objSibling.Left.Red) || (objSibling.Right != null && objSibling.Right.Red))
-                        {
-                            if (objSibling.Left == null || !objSibling.Left.Red)
-                            {
-                                objSibling.Right.Red = false;
-                                objSibling.Red = true;
-                                this.RotateLeft(objSibling);
-                                objSibling = objParent.Left;
-                            }
+                        objSibling.Red = objParent.Red;
+                        objParent.Red = objSibling.Left.Red = false;
+                        this.RotateRight(objParent);
+                        objNode = this.Root;
 
-                            objSibling.Red = objParent.Red;
-                            objParent.Red = objSibling.Left.Red = false;
-                            this.RotateRight(objParent);
-                            objNode = this.Root;
-
-                            break;
-                        }
+                        break;
                     }
-
-                    objSibling.Red = true;
-                    objNode = objParent;
-                    objParent = objParent.Parent;
-
-                } while (!objNode.Red);
-
-                if (objNode != null)
-                {
-                    objNode.Red = false;
                 }
-            }
-            catch (Exception ex)
+
+                objSibling.Red = true;
+                objNode = objParent;
+                objParent = objParent.Parent;
+
+            } while (!objNode.Red);
+
+            if (objNode != null)
             {
-                throw new Exception("Error in RemoveNode", ex);
+                objNode.Red = false;
             }
         }
     }

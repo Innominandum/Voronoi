@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace Voronoi
+namespace Voronoi.Objects
 {
     public class Point
     {
@@ -20,7 +21,7 @@ namespace Voronoi
             }
         }
 
-        public System.Collections.Generic.Dictionary<Edge, Point> Neighbours = new System.Collections.Generic.Dictionary<Edge, Point>();
+        public Dictionary<Edge, Point> Neighbours = new Dictionary<Edge, Point>();
 
         #endregion
 
@@ -31,14 +32,7 @@ namespace Voronoi
         /// <date>2013-08-10</date>
         public override string ToString()
         {
-            try
-            {
                 return string.Format("[{0}x{1}x{2}]", this.x, this.y, this.z);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in ToString", ex);
-            }
         }
     }
 }
