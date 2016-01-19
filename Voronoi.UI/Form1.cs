@@ -6,6 +6,8 @@ namespace Voronoi.UI
 {
     public partial class Form1 : Form
     {
+        private string _initialDirectory = string.Empty;
+
         public Form1()
         {
             InitializeComponent();
@@ -21,7 +23,7 @@ namespace Voronoi.UI
                 {
                     Height = 1200,
                     Width = 1920,
-                    NumberOfSites = 20000,
+                    NumberOfSites = 4000,
                     LloydIterations = 2,
                     PolygonSeed = intSeed,
                     PerlinSeed = intSeed,
@@ -35,7 +37,28 @@ namespace Voronoi.UI
                 
                 string strRocka = currentMap.VectorMap;
 
-                File.WriteAllText(@"C:\Users\Dennis\Desktop\Voronoi\svgAuto.svg", strRocka);
+                var dialog = new SaveFileDialog()
+                {
+                    AddExtension = true,
+                    CheckPathExists = true,
+                    DefaultExt = ".svg",
+                    Filter = "SVG (*.svg)|*.svg",
+                    FileName = $"{intSeed}.svg"
+                };
+
+                if (!string.IsNullOrEmpty(_initialDirectory))
+                {
+                    dialog.InitialDirectory = _initialDirectory;
+                }
+
+                if (dialog.ShowDialog(this) != DialogResult.OK)
+                {
+                    return;
+                }
+
+                File.WriteAllText(dialog.FileName, strRocka);
+
+                _initialDirectory = Path.GetDirectoryName(dialog.FileName);
 
                 MessageBox.Show($"Done! {currentMap.Debug.ToString()}", "Voronoi", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
