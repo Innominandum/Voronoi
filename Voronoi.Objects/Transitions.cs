@@ -23,8 +23,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Add the beach to the front of the list.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-28</date>
         public void AddFirst(Beach objBeach)
         {
             this.RunningIndex++;
@@ -35,8 +33,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Add the beach to the end of the list.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-28</date>
         public void AddLast(Beach objBeach)
         {
             this.RunningIndex++;
@@ -47,8 +43,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Get a particular item from the list.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-28</date>
         public Beach Item(int intExternalIndex)
         {
             // Initialise variables.

@@ -447,8 +447,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Create a new beach section.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-21</date>
         private Beach CreateBeach(Point objSite)
         {
             // Initialise variables.
@@ -464,8 +462,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Detach a circle event.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-21</date>
         private void DetachCircleEvent(Beach objArc)
         {
             Circle objCircle = objArc.Circle;
@@ -489,8 +485,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Creates a new edge.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-21</date>
         private Edge CreateEdge(Point objSiteLeft, Point objSiteRight, Point objVertexA, Point objVertexB)
         {
             Edge objEdge = new Edge()
@@ -521,8 +515,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Attach a circle event.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-22</date>
         private void AttachCircle(Beach objArc)
         {
             // This is a node in the RBTree which points to a beachsection.
@@ -636,8 +628,6 @@ namespace Voronoi.Objects
         /// Checks to see if a circle event is available in the junkyard and uses it,
         /// or makes a new one and returns it.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-22</date>
         private Circle GetCircle()
         {
             Circle objCircle = null;
@@ -663,8 +653,6 @@ namespace Voronoi.Objects
         /// Checks to see if a beach section is available in the junkyard and uses it,
         /// or makes a new one and returns it.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-22</date>
         private Beach GetBeach()
         {
             Beach objBeach = null;
@@ -689,8 +677,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Remove beach section.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-22</date>
         private void RemoveBeach(Beach objBeach)
         {
             Circle objCircle = objBeach.Circle;
@@ -781,8 +767,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Detach a beach section.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-22</date>
         private void DetachBeach(Beach objBeach)
         {
             // Detach potentially attached circle event.
@@ -798,8 +782,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Clips all the unnecessary edges.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-23</date>
         private void ClipEdges()
         {
             // Initialise variables.
@@ -847,8 +829,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Connects an edge.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-23</date>
         private Boolean ConnectEdge(Edge objEdge)
         {
             if (objEdge.VertexB != null)
@@ -993,8 +973,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Clip an edge to fit the bounding box.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-23</date>
         private Boolean ClipEdge(Edge objEdge)
         {
             // Initialise variables.
@@ -1179,8 +1157,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Close cells.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-13</date>
         private void CloseCells()
         {
             // Prune and order the halfedges, then add missing halfedges in order to close the cells.
@@ -1265,8 +1241,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Creates a border edge.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-23</date>
         private Edge CreateBorderEdge(Point objSite, Point objVertexA, Point objVertexB)
         {
             Edge objEdge = new Edge()
@@ -1286,8 +1260,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Creates a vertex for an edge.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-15</date>
         private Point CreateEdgeVertex(double dblX, double dblY)
         {
             // Initialise variable.

@@ -129,8 +129,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Set the start point of the edge.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-22</date>
         public void SetStartPoint(Point objSiteLeft, Point objSiteRight, Point objVertex)
         {
             if (this.VertexA == null && this.VertexB == null)
@@ -155,8 +153,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Set end point.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-22</date>
         public void SetEndPoint(Point objSiteLeft, Point objSiteRight, Point objVertex)
         {
             this.SetStartPoint(objSiteRight, objSiteLeft, objVertex);

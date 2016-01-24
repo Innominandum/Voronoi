@@ -93,8 +93,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Trim non fully defined half edges and sort them counter-clockwise.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-23</date>
         public void PrepareHalfEdges()
         {
             // Initialise variables.
@@ -120,8 +118,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Sort the half edges.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-08</date>
         private int SortHalfEdges(HalfEdge a, HalfEdge b)
         {
             double r = b.Angle - a.Angle;
@@ -136,8 +132,6 @@ namespace Voronoi.Objects
         /// in PrepareHalfEdges(). This is important, since it placed the edges in the right
         /// order, determined by their angle.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-20</date>
         public void DeterminePolygonPoints()
         {
             // Grab all the points. Start by grabbing the starting point.
@@ -153,8 +147,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Sets the elevation for the site and each points that make up the cell.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-08</date>
         public void DetermineElevation(int intPeak)
         {
             // Initialise variables.

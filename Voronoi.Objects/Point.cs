@@ -28,8 +28,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// This shows a representation of a particular point.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-10</date>
         public override string ToString()
         {
                 return string.Format("[{0}x{1}x{2}]", this.x, this.y, this.z);

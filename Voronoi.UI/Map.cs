@@ -5,6 +5,7 @@ using System.Text;
 using Voronoi.Objects;
 using Voronoi.Objects.Enumerations;
 using Voronoi.UI.Enumerations;
+using System.Collections.Generic;
 
 namespace Voronoi.UI
 {
@@ -48,8 +49,6 @@ namespace Voronoi.UI
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-11</date>
         public Map()
         {
             try
@@ -66,8 +65,6 @@ namespace Voronoi.UI
         /// <summary>
         /// Create the map.
         /// </summary>
-        /// <created>Dennis Steinmeijer</created>
-        /// <date>2013-07-20</date>
         public void Create()
         {
             try
@@ -103,8 +100,6 @@ namespace Voronoi.UI
         /// <summary>
         /// Initialise.
         /// </summary>
-        /// <created>Dennis Steinmeijer</created>
-        /// <date>2013-07-20</date>
         private void Initialise()
         {
             try
@@ -131,8 +126,6 @@ namespace Voronoi.UI
         /// <summary>
         /// Calculates and initiates new sites.
         /// </summary>
-        /// <created>Dennis Steinmeijer</created>
-        /// <date>2013-07-20</date>
         private void CalculateSites()
         {
             try
@@ -167,10 +160,10 @@ namespace Voronoi.UI
                     this.Write(string.Format("CalculateSites: start with run {0}", intImprove + 1));
 
                     // Initialise the sites list.
-                    var lstSites = new System.Collections.Generic.List<Point>();
+                    var lstSites = new List<Point>();
 
                     // Go through each polygon.
-                    foreach (System.Collections.Generic.KeyValuePair<int, Cell> kvpCell in this.Polygons.Cells)
+                    foreach (KeyValuePair<int, Cell> kvpCell in this.Polygons.Cells)
                     {
                         // Initialise some variables.
                         double px = 0;
@@ -225,8 +218,6 @@ namespace Voronoi.UI
         /// <summary>
         /// Processes all the sites and sets properties for them.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-09</date>
         private void ProcessSites()
         {
             try
@@ -235,7 +226,7 @@ namespace Voronoi.UI
                 this.Write("Start with ProcessSites");
 
                 // Run through each cell.
-                foreach (System.Collections.Generic.KeyValuePair<int, Cell> kvpCell in this.Polygons.Cells)
+                foreach (KeyValuePair<int, Cell> kvpCell in this.Polygons.Cells)
                 {
                     // Grab the cell object.
                     Cell currentCell = kvpCell.Value;
@@ -288,8 +279,6 @@ namespace Voronoi.UI
         /// <summary>
         /// Determine the neighbours of each cell.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-10</date>
         private void DetermineCellNeighbours(Cell currentCell)
         {
             try
@@ -327,8 +316,6 @@ namespace Voronoi.UI
         /// Calculates perlin noise and uses it to determine the
         /// elevation of each point in a polygon.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-08</date>
         private void DetermineCellNoise(Cell currentCell)
         {
             try
@@ -361,8 +348,6 @@ namespace Voronoi.UI
         /// <summary>
         /// This tries to create a shape for the island based on radial, overlapping sine waves.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-09</date>
         private void IslandTypeRadial()
         {
             try
@@ -389,7 +374,7 @@ namespace Voronoi.UI
                 double dblDipWidth = this.Random.NextDoubleRange(0.2, 0.7);
 
                 // Now go through all the cells.
-                foreach (System.Collections.Generic.KeyValuePair<int, Cell> kvpCell in this.Polygons.Cells)
+                foreach (KeyValuePair<int, Cell> kvpCell in this.Polygons.Cells)
                 {
                     // Reset the counter for the amount of water points the cell has gathered.
                     int intWaterPoint = 0;
@@ -449,8 +434,6 @@ namespace Voronoi.UI
         /// <summary>
         /// This tries to create a shape for the island based on perlin noise.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-10</date>
         private void IslandTypePerlin()
         {
             try
@@ -467,7 +450,7 @@ namespace Voronoi.UI
                 dblOceanRatio = (dblMaximumLandRatio - dblMinimumLandRatio) * dblOceanRatio + dblMinimumLandRatio;
 
                 // Now go through all the cells.
-                foreach (System.Collections.Generic.KeyValuePair<int, Cell> kvpCell in this.Polygons.Cells)
+                foreach (KeyValuePair<int, Cell> kvpCell in this.Polygons.Cells)
                 {
                     // Grab the cell
                     Cell currentCell = kvpCell.Value;
@@ -501,8 +484,6 @@ namespace Voronoi.UI
         /// <summary>
         /// Determine which cells are oceans.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-10</date>
         private void DetermineOcean()
         {
             try
@@ -511,7 +492,7 @@ namespace Voronoi.UI
                 this.Write("Start with DetermineOcean");
 
                 // Place all the cells that are considered outer edges in the queue.
-                var lstQueue = new System.Collections.Generic.Queue<Cell>(this.Polygons.Cells.Where(c => c.Value.IsOuterEdge).Select(c => c.Value));
+                var lstQueue = new Queue<Cell>(this.Polygons.Cells.Where(c => c.Value.IsOuterEdge).Select(c => c.Value));
 
                 // Now we'll go through the queue and look at the adjascent cells. If they're water, they'll also be marked as oceans.
                 // Then they'll be added to the stack for inspection. This way, by the time we're done, any water cells that are left
@@ -544,8 +525,6 @@ namespace Voronoi.UI
         /// <summary>
         /// Determines which edges border both land and water and marks them as coastlines.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-10</date>
         private void DetermineCoast()
         {
             try
@@ -556,7 +535,7 @@ namespace Voronoi.UI
                 // Let's find all water cells. Unfortunately, we can't do this in the same 
                 // function as DetermineOcean(), since that floodfills all the water as
                 // oceans starting at the edges.
-                var lstQueue = new System.Collections.Generic.Stack<Cell>(this.Polygons.Cells.Where(c => c.Value.Biome == Biomes.Water || c.Value.Biome == Biomes.Ocean).Select(c => c.Value));
+                var lstQueue = new Stack<Cell>(this.Polygons.Cells.Where(c => c.Value.Biome == Biomes.Water || c.Value.Biome == Biomes.Ocean).Select(c => c.Value));
 
                 while (lstQueue.Count > 0)
                 {
@@ -564,7 +543,7 @@ namespace Voronoi.UI
                     Cell currentCell = lstQueue.Pop();
 
                     // Inspect its neighbours.
-                    foreach (System.Collections.Generic.KeyValuePair<Edge, Cell> kvpNeighbour in currentCell.Neighbours)
+                    foreach (KeyValuePair<Edge, Cell> kvpNeighbour in currentCell.Neighbours)
                     {
                         // Grab the neighbour cell.
                         Cell currentNeighbour = kvpNeighbour.Value;
@@ -593,8 +572,6 @@ namespace Voronoi.UI
         /// <summary>
         /// Determines elevation (or depth) for each cell.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-10</date>
         private void DetermineCellElevation()
         {
             try
@@ -607,7 +584,7 @@ namespace Voronoi.UI
                 double dblLand = 1;
 
                 // Grab the border cells.
-                var lstQueue = new System.Collections.Generic.Queue<Cell>(this.Polygons.Cells.Where(c => c.Value.IsOuterEdge).Select(c => c.Value));
+                var lstQueue = new Queue<Cell>(this.Polygons.Cells.Where(c => c.Value.IsOuterEdge).Select(c => c.Value));
 
                 // Give all the border cells an elevation index of 0.001.
                 foreach (Cell currentCell in lstQueue)
@@ -623,7 +600,7 @@ namespace Voronoi.UI
                     // Grab and remove the first cell in the queue.
                     Cell currentCell = lstQueue.Dequeue();
 
-                    foreach (System.Collections.Generic.KeyValuePair<Edge, Cell> kvpNeighbour in currentCell.Neighbours)
+                    foreach (KeyValuePair<Edge, Cell> kvpNeighbour in currentCell.Neighbours)
                     {
                         // Grab the neighbouring cell.
                         Cell currentNeighbour = kvpNeighbour.Value;
@@ -653,7 +630,7 @@ namespace Voronoi.UI
                 double dblMinimumElevationIndex = this.Polygons.Cells.Min(c => c.Value.ElevationIndex);
 
                 // Now let's determine elevation or depth of each cell.
-                foreach (System.Collections.Generic.KeyValuePair<int, Cell> kvpCell in this.Polygons.Cells)
+                foreach (KeyValuePair<int, Cell> kvpCell in this.Polygons.Cells)
                 {
                     // Produce an elevation index between 0 and 1.
                     kvpCell.Value.ElevationIndex = kvpCell.Value.ElevationIndex / dblMaximumElevationIndex;
@@ -668,7 +645,7 @@ namespace Voronoi.UI
                 double dblMinimumWaterDepth = this.Polygons.Cells.Where(c => c.Value.Biome == Biomes.Ocean || c.Value.Biome == Biomes.Water).Max(c => c.Value.Site.z);
 
                 // Now that we have the highs and lows, we'll determine elevation and depth zones.
-                foreach (System.Collections.Generic.KeyValuePair<int, Cell> kvpCell in this.Polygons.Cells)
+                foreach (KeyValuePair<int, Cell> kvpCell in this.Polygons.Cells)
                 {
                     // Grab the cell.
                     Cell currentCell = kvpCell.Value;
@@ -730,8 +707,6 @@ namespace Voronoi.UI
         /// <summary>
         /// Creates a random amount of rivers.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-10</date>
         private void DetermineRivers()
         {
             try
@@ -786,7 +761,7 @@ namespace Voronoi.UI
                         // Now we have all connecting edges. Let's find the one with the steepest decline.
                         Edge currentNextEdge = null;
                         Point currentNextPoint = null;
-                        foreach (System.Collections.Generic.KeyValuePair<Edge, Point> kvpEdge in currentPoint.Neighbours)
+                        foreach (KeyValuePair<Edge, Point> kvpEdge in currentPoint.Neighbours)
                         {
                             // Ignore the current edge from the collection of neighbours for this point.
                             if (currentEdge == kvpEdge.Key) { continue; }
@@ -845,8 +820,6 @@ namespace Voronoi.UI
         /// <summary>
         /// Draw the map.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-23</date>
         private void DrawMap()
         {
             try
@@ -862,7 +835,7 @@ namespace Voronoi.UI
                 currentMap.AppendLine("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">");
                 currentMap.AppendLine(string.Format("<svg height=\"{0}px\" width=\"{1}px\" viewBox=\"0 0 {2} {3}\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">", this.Height, this.Width, this.Width, this.Height));
 
-                foreach (System.Collections.Generic.KeyValuePair<int, Cell> kvpCell in this.Polygons.Cells)
+                foreach (KeyValuePair<int, Cell> kvpCell in this.Polygons.Cells)
                 {
                     // Grab the cell.
                     Cell currentCell = kvpCell.Value;
@@ -1006,8 +979,6 @@ namespace Voronoi.UI
         /// <summary>
         /// Write debug information.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-08-10</date>
         private void Write(string strMessage)
         {
             try

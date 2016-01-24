@@ -13,8 +13,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Inserts a successor to a node.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-21</date>
         public void InsertSuccessor(RBNode objNode, RBNode objSuccessor)
         {
             // Initialise some variables.
@@ -142,8 +140,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Get the first node by walking along the left hand node chain.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-21</date>
         private RBNode GetFirst(RBNode objNode)
         {
             while (objNode.Left != null)
@@ -157,8 +153,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Get the last node by walking along the right hand node chain.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-21</date>
         private RBNode GetLast(RBNode objNode)
         {
             while (objNode.Right != null)
@@ -172,8 +166,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Rotate node left.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-21</date>
         private void RotateLeft(RBNode objNode)
         {
             RBNode objRight = objNode.Right;
@@ -210,8 +202,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Rotate node right.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-21</date>
         private void RotateRight(RBNode objNode)
         {
             RBNode objLeft = objNode.Left;
@@ -248,8 +238,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Removes a node from the tree.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-21</date>
         public void RemoveNode(RBNode objNode)
         {
             if (objNode.Next != null)

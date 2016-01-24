@@ -17,7 +17,7 @@ namespace Voronoi.Objects
         /// <summary>
         /// Class constructor.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
+        
         /// <date>2013-07-23</date>
         public HalfEdge(Edge objEdge, Point objSiteLeft, Point objSiteRight)
         {
@@ -53,8 +53,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Get the start point.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-23</date>
         public Point GetStartPoint()
         {
             if (this.Edge.SiteLeft == this.Site)
@@ -70,8 +68,6 @@ namespace Voronoi.Objects
         /// <summary>
         /// Get the end point.
         /// </summary>
-        /// <created_by>Dennis Steinmeijer</created_by>
-        /// <date>2013-07-23</date>
         public Point GetEndPoint()
         {
             if (this.Edge.SiteLeft == this.Site)
